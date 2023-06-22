@@ -17,6 +17,7 @@ contract Feedback is Ownable{
 
     ISemaphore public semaphore;
     address public nftAddress;
+    address[] public adminAddressesArray;
     uint public groupId;
 
     mapping(address => bool) public adminAddresses; // 관리자 계정을 저장하는 매핑
@@ -27,6 +28,12 @@ contract Feedback is Ownable{
         groupId = _groupId;
         nftAddress = _nftAddress;
         semaphore.createGroup(groupId, 20, address(this));
+        adminAddresses[msg.sender] = true;
+        adminAddressesArray.push(msg.sender);
+    }
+
+    function getAdminAddressList() external view returns(address[] memory) {
+        return adminAddressesArray;
     }
 
     /// @dev Access modifier for Admin-only functionality
@@ -37,6 +44,7 @@ contract Feedback is Ownable{
 
     function createGroup(uint _groupId) external onlyAdmin {
         semaphore.createGroup(_groupId, 20, address(this)); // 20 : 머클트리 depth
+        groupId = _groupId;
         emit CreateGroup(_groupId, address(this));
     }
 
@@ -76,11 +84,23 @@ contract Feedback is Ownable{
 
     /// @dev Adds a admin address
     function addAdminAddress(address _address) external onlyOwner {
+        require(!adminAddresses[_address], "Address is already an admin");
         adminAddresses[_address] = true;
+        adminAddressesArray.push(_address);
     }
 
     /// @dev Removes a admin address
     function removeAdminAddress(address _address) external onlyOwner {
+        require(adminAddresses[_address], "Address is not an admin");
         adminAddresses[_address] = false;
+
+        // Remove from the array
+        for (uint i = 0; i < adminAddressesArray.length; i++) {
+            if (adminAddressesArray[i] == _address) {
+                adminAddressesArray[i] = adminAddressesArray[adminAddressesArray.length - 1];
+                adminAddressesArray.pop();
+                break;
+            }
+        }
     }
 }
