@@ -7,12 +7,12 @@
 
 ---
 ## Deployed contracts
-|           | Mumbai                                                                                                   |
-|-----------|----------------------------------------------------------------------------------------------------------|
+|           | Mumbai                                                                                                    |
+|-----------|-----------------------------------------------------------------------------------------------------------|
 | Semaphore | [0x40A6...609f](https://mumbai.polygonscan.com/address/0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f#events) |
-| Feedback  | [0x451E...3184](https://mumbai.polygonscan.com/address/0x451E092b3F13ADA09e9c72fE57328e97aFe23184)       |
-| SBT        | [0x5Dcb...75b8](https://mumbai.polygonscan.com/address/0x5DcbBd68C0d5e5aB118735786B187A132b7775b8)       |                                                                                                    |
-| GroupId   | 17                                                                                                        |
+| Feedback  | [0xA774...4d2D](https://mumbai.polygonscan.com/address/0x451E092b3F13ADA09e9c72fE57328e97aFe23184)        |
+| SBT        | [0x6d7D...5403](https://mumbai.polygonscan.com/address/0x5DcbBd68C0d5e5aB118735786B187A132b7775b8)        |                                                                                                    |
+| GroupId   | 18                                                                                                        |
 ---
 ## How to deploy Feedback contract on Polygon Mumbai Test Network  
 ```shell
