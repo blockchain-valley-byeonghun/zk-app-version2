@@ -10,8 +10,8 @@
 |           | Mumbai                                                                                                    |
 |-----------|-----------------------------------------------------------------------------------------------------------|
 | Semaphore | [0x40A6...609f](https://mumbai.polygonscan.com/address/0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f#events) |
-| Feedback  | [0xA774...4d2D](https://mumbai.polygonscan.com/address/0x451E092b3F13ADA09e9c72fE57328e97aFe23184)        |
-| SBT        | [0x6d7D...5403](https://mumbai.polygonscan.com/address/0x5DcbBd68C0d5e5aB118735786B187A132b7775b8)        |                                                                                                    |
+| Feedback  | [0xA774...4d2D](https://mumbai.polygonscan.com/address/0xA774d68D14ec82911173A62E45a416a061654d2D)        |
+| SBT        | [0x6d7D...5403](https://mumbai.polygonscan.com/address/0x6d7DEFc10BA387497fc5e8B2C03Ae13ef8bd5403)        |                                                                                                    |
 | GroupId   | 18                                                                                                        |
 ---
 ## How to deploy Feedback contract on Polygon Mumbai Test Network  
