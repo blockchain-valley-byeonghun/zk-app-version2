@@ -1,19 +1,26 @@
-# ETHTOKYOZKTEAM
+<p align="center">
+    <h1 align="center">
+        Anonymous Community v2 
+    </h1>
+    <p align="center">ZK application of Semaphore demo page</p>
+</p>
 
-## our project showcase
-- https://ethglobal.com/showcase/ethtokyozkproject-ghmin
-
-## zk-protocol-semephore
-- nft contract repository that using this project
-  - https://github.com/ETH-TOKYO-WITH-KUHELL/nft-semaphore
-
-## how to deploy feedback contract on Polygon Mumbai Test Network  
+---
+## Deployed contracts
+|           | Mumbai                                                                                                    |
+|-----------|-----------------------------------------------------------------------------------------------------------|
+| Semaphore | [0x40A6...609f](https://mumbai.polygonscan.com/address/0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f#events) |
+| Feedback  | [0x08f9...a240](https://mumbai.polygonscan.com/address/0x08f92493Bc1D38BA68e0566D624Db4bea779a240)        |
+| SBT        | [0x5Dcb...75b8](https://mumbai.polygonscan.com/address/0x5DcbBd68C0d5e5aB118735786B187A132b7775b8) |                                                                                                    |
+| GroupId   | 12                                                                                                        |
+---
+## How to deploy Feedback contract on Polygon Mumbai Test Network  
 ```shell
 cp .env.example .env 
 yarn
 cd apps/contract
 yarn
-yarn deploy --semaphore 0xc740e00e7cb62c8E2135e71bC34f8836Dddc72a6 --group 3 --network mumbai
+yarn deploy --semaphore 0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f --group 11 --network mumbai
 ```
 - `$ cp .env.example .env`
   - copy example env file for deploy Feedback contracts
@@ -21,19 +28,12 @@ yarn deploy --semaphore 0xc740e00e7cb62c8E2135e71bC34f8836Dddc72a6 --group 3 --n
   - install packages on root directory
 - second yarn
   - install packages on contract directory
-# change setting ( do this on root directory )
+---
+## Change abi after deploy Feedback contract ( do this on root directory )
 ```shell
 yarn copy:contract-artifacts
 yarn dev
 ```
 
-# reference 
-## our demo site
-- https://ethtokyozkprotocoldev.netlify.app/
 
-## deploy Semephore contract transaction history
-- https://mumbai.polygonscan.com/address/0xc740e00e7cb62c8E2135e71bC34f8836Dddc72a6
-- `0xc740e00e7cb62c8E2135e71bC34f8836Dddc72a6`
-## deploy Feedback contract transaction history
-- https://mumbai.polygonscan.com/address/0x22fff678d6560c69Fd342A89eC47021C9a5D7A7f
-- `0x22fff678d6560c69Fd342A89eC47021C9a5D7A7f`
+
