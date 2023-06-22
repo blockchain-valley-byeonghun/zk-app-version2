@@ -7,12 +7,12 @@
 
 ---
 ## Deployed contracts
-|           | Mumbai                                                                                                    |
-|-----------|-----------------------------------------------------------------------------------------------------------|
+|           | Mumbai                                                                                                   |
+|-----------|----------------------------------------------------------------------------------------------------------|
 | Semaphore | [0x40A6...609f](https://mumbai.polygonscan.com/address/0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f#events) |
-| Feedback  | [0x08f9...a240](https://mumbai.polygonscan.com/address/0x08f92493Bc1D38BA68e0566D624Db4bea779a240)        |
-| SBT        | [0x5Dcb...75b8](https://mumbai.polygonscan.com/address/0x5DcbBd68C0d5e5aB118735786B187A132b7775b8) |                                                                                                    |
-| GroupId   | 12                                                                                                        |
+| Feedback  | [0x451E...3184](https://mumbai.polygonscan.com/address/0x451E092b3F13ADA09e9c72fE57328e97aFe23184)       |
+| SBT        | [0x5Dcb...75b8](https://mumbai.polygonscan.com/address/0x5DcbBd68C0d5e5aB118735786B187A132b7775b8)       |                                                                                                    |
+| GroupId   | 17                                                                                                        |
 ---
 ## How to deploy Feedback contract on Polygon Mumbai Test Network  
 ```shell
@@ -20,7 +20,7 @@ cp .env.example .env
 yarn
 cd apps/contract
 yarn
-yarn deploy --semaphore 0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f --group 11 --network mumbai
+yarn deploy --semaphore 0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f --group 14 --network mumbai
 ```
 - `$ cp .env.example .env`
   - copy example env file for deploy Feedback contracts
@@ -33,6 +33,11 @@ yarn deploy --semaphore 0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f --group 11 --
 ```shell
 yarn copy:contract-artifacts
 yarn dev
+```
+
+## How to connect on RemixIDE
+```shell
+remixd -s ./ --remix-ide https://remix.ethereum.org
 ```
 
 
