@@ -13,11 +13,13 @@ contract Feedback is Ownable{
 
     event NewFeedback(uint feedback);
     event NewUser(bytes32 username, uint identifyCommitment);
+    event CreateGroup(uint groupId, address indexed creator);
 
     ISemaphore public semaphore;
     address public nftAddress;
     uint public groupId;
 
+    mapping(address => bool) public adminAddresses; // 관리자 계정을 저장하는 매핑
     mapping(address => mapping(bytes32 => uint)) private users;
 
     constructor(address _semaphoreAddress, uint _groupId, address _nftAddress) {
@@ -25,6 +27,17 @@ contract Feedback is Ownable{
         groupId = _groupId;
         nftAddress = _nftAddress;
         semaphore.createGroup(groupId, 20, address(this));
+    }
+
+    /// @dev Access modifier for Admin-only functionality
+    modifier onlyAdmin() {
+        require(adminAddresses[msg.sender]);
+        _;
+    }
+
+    function createGroup(uint _groupId) external onlyAdmin {
+        semaphore.createGroup(_groupId, 20, address(this)); // 20 : 머클트리 depth
+        emit CreateGroup(_groupId, address(this));
     }
 
     function joinGroup(uint _identityCommitment, bytes32 _username) external {
@@ -59,5 +72,15 @@ contract Feedback is Ownable{
     function setNftAddress(address _newNftAddress) external onlyOwner {
         require(_newNftAddress != address(0), "new address is the zero address");
         nftAddress = _newNftAddress;
+    }
+
+    /// @dev Adds a admin address
+    function addAdminAddress(address _address) external onlyOwner {
+        adminAddresses[_address] = true;
+    }
+
+    /// @dev Removes a admin address
+    function removeAdminAddress(address _address) external onlyOwner {
+        adminAddresses[_address] = false;
     }
 }
