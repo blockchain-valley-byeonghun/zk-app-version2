@@ -12,7 +12,7 @@
 | Semaphore | [0x40A6...609f](https://mumbai.polygonscan.com/address/0x40A6ad127e3b4C8077af42a2437cCbd3cdC7609f#events) |
 | Feedback  | [0xA774...4d2D](https://mumbai.polygonscan.com/address/0xA774d68D14ec82911173A62E45a416a061654d2D)        |
 | SBT        | [0x6d7D...5403](https://mumbai.polygonscan.com/address/0x6d7DEFc10BA387497fc5e8B2C03Ae13ef8bd5403)        |                                                                                                    |
-| GroupId   | 18                                                                                                        |
+| GroupId   | 19                                                                                                        |
 ---
 ## How to deploy Feedback contract on Polygon Mumbai Test Network  
 ```shell
