@@ -22,7 +22,7 @@ contract Feedback is Ownable{
 
     event NewFeedback(uint feedback);
     event NewUser(bytes32 username, uint identifyCommitment);
-    event CreateGroup(uint groupId, address indexed creator);
+    event CreateAgenda(uint groupId, address indexed creator);
 
     ISemaphore public semaphore;
     address public nftAddress;
@@ -50,9 +50,11 @@ contract Feedback is Ownable{
         _;
     }
 
-    function createGroup(address _owner, string memory _title, string memory _description, uint256 _deadline, uint _groupId) external onlyAdmin {
+    function createAgenda(address _owner, string memory _title, string memory _description, uint256 _deadline, uint _agendaId) external onlyAdmin {
         Agenda storage agenda = agendas[numberOfAgendas];
+
         require(agenda.deadline < block.timestamp, "The deadline should be a date in the future.");
+
         agenda.owner = _owner;
         agenda.title = _title;
         agenda.description = _description;
@@ -61,18 +63,18 @@ contract Feedback is Ownable{
 
         numberOfAgendas++;
 
-        semaphore.createGroup(_groupId, 20, address(this)); // 20 : 머클트리 depth
-        emit CreateGroup(_groupId, address(this));
+        semaphore.createGroup(_agendaId, 20, address(this)); // 20 : 머클트리 depth
+        emit CreateAgenda(_agendaId, address(this));
     }
 
-    function joinGroup(uint _groupId, uint _identityCommitment, bytes32 _username) external {
+    function joinAgenda(uint _agendaId, uint _identityCommitment, bytes32 _username) external {
         ERC721 nftContract = ERC721(nftAddress);
         require(nftContract.balanceOf(msg.sender) > 0, "you dont have NFT"); // NFT를 보유하고 있지 않을 시 join 불가
         if (users[msg.sender][_username] != 0) { // 하나의 계정으로 한번만 join 가능
             revert Feedback__UserAlreadyExists();
         }
 
-        semaphore.addMember(_groupId, _identityCommitment);
+        semaphore.addMember(_agendaId, _identityCommitment);
 
         users[msg.sender][_username] = _identityCommitment;
 
@@ -80,13 +82,13 @@ contract Feedback is Ownable{
     }
 
     function sendFeedback(
-        uint _groupId,
+        uint _agendaId,
         uint _feedback,
         uint _merkleTreeRoot,
         uint _nullifierHash,
         uint[8] calldata _proof
     ) external {
-        semaphore.verifyProof(_groupId, _merkleTreeRoot, _feedback, _nullifierHash, _groupId, _proof);
+        semaphore.verifyProof(_agendaId, _merkleTreeRoot, _feedback, _nullifierHash, _agendaId, _proof);
         emit NewFeedback(_feedback);
     }
 
