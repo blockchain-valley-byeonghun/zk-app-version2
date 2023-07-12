@@ -9,6 +9,15 @@ interface ERC721 {
 }
 
 contract Feedback is Ownable{
+
+    struct Agenda {
+        address owner; // 생성자
+        string title; // 제목
+        string description; // 부제목
+        uint256 deadline; // 데드라인
+        uint256 agreeCollected; // 좋아요
+    }
+
     error Feedback__UserAlreadyExists();
 
     event NewFeedback(uint feedback);
@@ -18,16 +27,15 @@ contract Feedback is Ownable{
     ISemaphore public semaphore;
     address public nftAddress;
     address[] public adminAddressesArray;
-    uint public groupId;
+    uint256 public numberOfAgendas = 0;
 
+    mapping(uint256 => Agenda) public agendas;
     mapping(address => bool) public adminAddresses; // 관리자 계정을 저장하는 매핑
     mapping(address => mapping(bytes32 => uint)) private users;
 
-    constructor(address _semaphoreAddress, uint _groupId, address _nftAddress) {
+    constructor(address _semaphoreAddress, address _nftAddress) {
         semaphore = ISemaphore(_semaphoreAddress);
-        groupId = _groupId;
         nftAddress = _nftAddress;
-        semaphore.createGroup(groupId, 20, address(this));
         adminAddresses[msg.sender] = true;
         adminAddressesArray.push(msg.sender);
     }
@@ -42,20 +50,29 @@ contract Feedback is Ownable{
         _;
     }
 
-    function createGroup(uint _groupId) external onlyAdmin {
+    function createGroup(address _owner, string memory _title, string memory _description, uint256 _deadline, uint _groupId) external onlyAdmin {
+        Agenda storage agenda = agendas[numberOfAgendas];
+        require(agenda.deadline < block.timestamp, "The deadline should be a date in the future.");
+        agenda.owner = _owner;
+        agenda.title = _title;
+        agenda.description = _description;
+        agenda.deadline = _deadline;
+        agenda.agreeCollected = 0;
+
+        numberOfAgendas++;
+
         semaphore.createGroup(_groupId, 20, address(this)); // 20 : 머클트리 depth
-        groupId = _groupId;
         emit CreateGroup(_groupId, address(this));
     }
 
-    function joinGroup(uint _identityCommitment, bytes32 _username) external {
+    function joinGroup(uint _groupId, uint _identityCommitment, bytes32 _username) external {
         ERC721 nftContract = ERC721(nftAddress);
         require(nftContract.balanceOf(msg.sender) > 0, "you dont have NFT"); // NFT를 보유하고 있지 않을 시 join 불가
         if (users[msg.sender][_username] != 0) { // 하나의 계정으로 한번만 join 가능
             revert Feedback__UserAlreadyExists();
         }
 
-        semaphore.addMember(groupId, _identityCommitment);
+        semaphore.addMember(_groupId, _identityCommitment);
 
         users[msg.sender][_username] = _identityCommitment;
 
@@ -63,12 +80,13 @@ contract Feedback is Ownable{
     }
 
     function sendFeedback(
+        uint _groupId,
         uint _feedback,
         uint _merkleTreeRoot,
         uint _nullifierHash,
         uint[8] calldata _proof
     ) external {
-        semaphore.verifyProof(groupId, _merkleTreeRoot, _feedback, _nullifierHash, groupId, _proof);
+        semaphore.verifyProof(_groupId, _merkleTreeRoot, _feedback, _nullifierHash, _groupId, _proof);
         emit NewFeedback(_feedback);
     }
 
